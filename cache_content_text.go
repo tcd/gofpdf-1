@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 )
 
 //ContentTypeCell cell
@@ -295,7 +296,7 @@ func createContent(f *SubsetFontObj, text string, fontSize float64, rectangle *R
 	}
 
 	textWidthPdfUnit := (float64(sumWidth) * (fontSize / 1000.0)) + (float64(len(text)-1) * textOpt.CharacterSpacing)
-
+	textWidthPdfUnit = math.Max(float64(0), textWidthPdfUnit)
 	cellWidthPdfUnit := float64(0)
 	cellHeightPdfUnit := float64(0)
 

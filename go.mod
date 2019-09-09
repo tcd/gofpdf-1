@@ -1,4 +1,4 @@
-module github.com/ISeeMe/gofpdf
+module github.com/tcd/gofpdf
 
 go 1.12
 

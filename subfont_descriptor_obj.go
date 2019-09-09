@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ISeeMe/gofpdf/fontmaker/core"
+	"github.com/tcd/gofpdf/fontmaker/core"
 )
 
 //SubfontDescriptorObj pdf subfont descriptorObj object

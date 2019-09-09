@@ -15,7 +15,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ISeeMe/gofpdf/geh"
+	"github.com/tcd/gofpdf/geh"
 )
 
 var ERROR_NO_UNICODE_ENCODING_FOUND = errors.New("No Unicode encoding found")

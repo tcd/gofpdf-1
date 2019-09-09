@@ -1,9 +1,0 @@
-# gofpdf
-
-![gofpdf](image/logo_gofpdf.jpg?raw=true "gofpdf")
-
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/d1ngd0/gofpdf/master/license.txt)
-[![GoDoc](https://godoc.org/github.com/d1ngd0/gofpdf?status.svg)](https://godoc.org/github.com/d1ngd0/gofpdf)
-[![Build Status](https://travis-ci.org/d1ngd0/gofpdf.svg?branch=master)](https://travis-ci.org/d1ngd0/gofpdf)
-
-{{.Doc}}

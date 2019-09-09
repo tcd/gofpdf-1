@@ -7,8 +7,8 @@ import (
 	"io"
 	"sort"
 
-	"github.com/tcd/gofpdf/bp"
-	"github.com/tcd/gofpdf/fontmaker/core"
+	"github.com/tcd/gofpdf-1/bp"
+	"github.com/tcd/gofpdf-1/fontmaker/core"
 )
 
 //EntrySelectors entry selectors

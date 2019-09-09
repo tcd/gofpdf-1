@@ -1,7 +1,7 @@
 package gofpdf
 
 import (
-	"github.com/tcd/gofpdf/geh"
+	"github.com/tcd/gofpdf-1/geh"
 )
 
 type keyIndexMap map[rune]int

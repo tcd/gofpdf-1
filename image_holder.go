@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/tcd/gofpdf/bp"
+	"github.com/tcd/gofpdf-1/bp"
 )
 
 //ImageHolder hold image data

@@ -12,7 +12,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/tcd/gofpdf/geh"
+	"github.com/tcd/gofpdf-1/geh"
 )
 
 const imageType = "Image"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/tcd/gofpdf/bp"
+	"github.com/tcd/gofpdf-1/bp"
 )
 
 const contentType = "Content"

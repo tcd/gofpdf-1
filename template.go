@@ -24,8 +24,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/tcd/gofpdf/bp"
-	"github.com/tcd/gofpdf/geh"
+	"github.com/tcd/gofpdf-1/bp"
+	"github.com/tcd/gofpdf-1/geh"
 )
 
 // Template is an object that can be written to, then used and re-used any number of times within a document.

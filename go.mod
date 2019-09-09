@@ -1,4 +1,4 @@
-module github.com/tcd/gofpdf
+module github.com/tcd/gofpdf-1
 
 go 1.12
 

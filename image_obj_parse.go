@@ -12,7 +12,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/tcd/gofpdf/bp"
+	"github.com/tcd/gofpdf-1/bp"
 )
 
 func writeImgProp(w io.Writer, imginfo imgInfo) error {

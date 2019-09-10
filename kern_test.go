@@ -2,7 +2,6 @@ package gofpdf
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"testing"
 )
@@ -15,7 +14,7 @@ func TestKern01(t *testing.T) {
 	}
 
 	if Wo != -80 {
-		t.Error(fmt.Sprintf("Wo must be -80 (but %d)", Wo))
+		t.Errorf("Wo must be -80 (but %d)", Wo)
 		//return
 	}
 
@@ -26,7 +25,7 @@ func TestKern01(t *testing.T) {
 	}
 
 	if Wi != -40 {
-		t.Error(fmt.Sprintf("Wi must be -40 (but %d)", Wi))
+		t.Errorf("Wi must be -40 (but %d)", Wi)
 		//return
 	}
 

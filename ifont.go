@@ -16,6 +16,7 @@ type IFont interface {
 	GetFamily() string
 }
 
+// FontCw is a map of font glyph bytes to their widths.
 type FontCw map[byte]int
 
 type FontDescItem struct {

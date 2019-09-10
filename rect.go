@@ -1,13 +1,14 @@
 package gofpdf
 
-// Rect is Basic 2d rectangle object for defining objects sizes
+// Rect is Basic 2d rectangle object for defining objects sizes.
 type Rect struct {
-	W            float64
-	H            float64
+	W            float64 // Width
+	H            float64 // Height
 	unitOverride int
 }
 
-// PointsToUnits converts the rectanlges width and height to Units. When this is called it is assumed the values of the rectangle are in Points
+// PointsToUnits converts the rectanlges width and height to Units.
+// When this is called it is assumed the values of the rectangle are in Points
 func (rect Rect) PointsToUnits(t int) (r Rect) {
 	if rect.unitOverride != Unit_Unset {
 		t = rect.unitOverride
@@ -18,7 +19,8 @@ func (rect Rect) PointsToUnits(t int) (r Rect) {
 	return
 }
 
-// UnitsToPoints converts the rectanlges width and height to Points. When this is called it is assumed the values of the rectangle are in Units
+// UnitsToPoints converts the rectanlges width and height to Points.
+// When this is called it is assumed the values of the rectangle are in Units
 func (rect Rect) UnitsToPoints(t int) (r Rect) {
 	if rect.unitOverride != Unit_Unset {
 		t = rect.unitOverride

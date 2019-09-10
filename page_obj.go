@@ -8,8 +8,9 @@ import (
 
 const pageType = "Page"
 
-//PageObj pdf page object
-type PageObj struct { //impl IObj
+// PageObj pdf page object
+// Implements IObj.
+type PageObj struct {
 	ResourcesRelate   string
 	pageOption        PageOption
 	Links             []linkOption

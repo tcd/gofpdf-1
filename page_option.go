@@ -7,13 +7,12 @@ import (
 
 // Page boundary types
 const (
-	PageBoundaryCrop = iota
-	PageBoundaryMedia
-	PageBoundaryBleed
-	PageBoundaryTrim
-	PageBoundaryArt
-	// the end of the road
-	pageBoundaryMax
+	PageBoundaryCrop  = iota // the region that the PDF viewer application is expected to display or print.
+	PageBoundaryMedia        // the width and height of the page. For the average user, this probably equals the actual page size.
+	PageBoundaryBleed        // the region to which the page contents needs to be clipped when output in a production environment. Usually the BleedBox is 3 to 5 millimeters larger than the TrimBox. By default the BleedBox equals the CropBox.
+	PageBoundaryTrim         // the intended dimensions of the finished page; the actual page size that gets printed.
+	PageBoundaryArt          // infrequently used; defines a page’s meaningful content area.
+	pageBoundaryMax          // the end of the road
 )
 
 //PageOption option of page
@@ -21,6 +20,7 @@ type PageOption struct {
 	PageBoundaries [5]*PageBoundary
 }
 
+// IsEmpty returns true if no PageBoundaries have been set.
 func (po *PageOption) IsEmpty() bool {
 	return len(po.PageBoundaries) == 0
 }

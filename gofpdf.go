@@ -49,7 +49,7 @@ type Fpdf struct {
 	appliedOpts []PdfOption
 }
 
-// Set a page boundary
+// SetPageBoundary sets a page boundary.
 func (gp *Fpdf) SetPageBoundary(pb *PageBoundary) {
 	if page := gp.currentPage(); page != nil {
 		page.pageOption.AddPageBoundary(pb)
@@ -58,6 +58,7 @@ func (gp *Fpdf) SetPageBoundary(pb *PageBoundary) {
 	}
 }
 
+// GetPageBoundary
 func (gp *Fpdf) GetPageBoundary(t int) *PageBoundary {
 	if page := gp.currentPage(); page != nil {
 		if boundary := page.pageOption.GetBoundary(t); boundary != nil {
@@ -68,6 +69,7 @@ func (gp *Fpdf) GetPageBoundary(t int) *PageBoundary {
 	return gp.curr.pageOption.GetBoundary(t)
 }
 
+// GetBoundarySize
 func (gp *Fpdf) GetBoundarySize(t int) (rec Rect) {
 	if pb := gp.GetPageBoundary(t); pb != nil {
 		rec = pb.Size
@@ -75,6 +77,7 @@ func (gp *Fpdf) GetBoundarySize(t int) (rec Rect) {
 	return
 }
 
+// GetBoundaryPosition
 func (gp *Fpdf) GetBoundaryPosition(t int) (p Point) {
 	if pb := gp.GetPageBoundary(t); pb != nil {
 		p = pb.Position
@@ -82,54 +85,63 @@ func (gp *Fpdf) GetBoundaryPosition(t int) (p Point) {
 	return
 }
 
+// GetBoundaryX
 func (gp *Fpdf) GetBoundaryX(t int) float64 {
 	return gp.GetBoundaryPosition(t).X
 }
 
+// GetBoundaryY
 func (gp *Fpdf) GetBoundaryY(t int) float64 {
 	return gp.GetBoundaryPosition(t).Y
 }
 
+// GetBoundaryWidth
 func (gp *Fpdf) GetBoundaryWidth(t int) float64 {
 	return gp.GetBoundarySize(t).W
 }
 
+// GetBoundaryHeight
 func (gp *Fpdf) GetBoundaryHeight(t int) float64 {
 	return gp.GetBoundarySize(t).H
 }
 
+// SetPageSize
 func (gp *Fpdf) SetPageSize(w, h float64) {
 	pb := gp.NewPageSizeBoundary(w, h)
 	gp.SetPageBoundary(pb)
 }
 
+// SetCropBox
 func (gp *Fpdf) SetCropBox(x, y, w, h float64) {
 	pb := gp.NewCropPageBoundary(x, y, w, h)
 	gp.SetPageBoundary(pb)
 }
 
+// SetBleedBox
 func (gp *Fpdf) SetBleedBox(x, y, w, h float64) {
 	pb := gp.NewBleedPageBoundary(x, y, w, h)
 	gp.SetPageBoundary(pb)
 }
 
+// SetTrimBox
 func (gp *Fpdf) SetTrimBox(x, y, w, h float64) {
 	pb := gp.NewTrimPageBoundary(x, y, w, h)
 	gp.SetPageBoundary(pb)
 }
 
+// SetArtBox
 func (gp *Fpdf) SetArtBox(x, y, w, h float64) {
 	pb := gp.NewArtPageBoundary(x, y, w, h)
 	gp.SetPageBoundary(pb)
 }
 
-//SetLineWidth : set line width
+// SetLineWidth sets line width
 func (gp *Fpdf) SetLineWidth(width float64) {
 	gp.curr.lineWidth = gp.UnitsToPoints(width)
 	gp.currentContent().AppendStreamSetLineWidth(gp.curr.lineWidth)
 }
 
-//SetCompressLevel : set compress Level for content streams
+// SetCompressLevel sets compression level for content streams.
 // Possible values for level:
 //    -2 HuffmanOnly, -1 DefaultCompression (which is level 6)
 //     0 No compression,
@@ -154,7 +166,8 @@ func (gp *Fpdf) SetNoCompression() {
 	gp.compressLevel = zlib.NoCompression
 }
 
-//SetLineType : set line type  ("dashed" ,"dotted")
+// SetLineType sets line type for line drawings ("dashed" ,"dotted")
+//
 //  Usage:
 //  pdf.SetLineType("dashed")
 //  pdf.Line(50, 200, 550, 200)
@@ -1039,14 +1052,7 @@ func (gp *Fpdf) WriteText(h float64, txtStr string) error {
 	return gp.MultiCell(0, h, txtStr)
 }
 
-// WriteText prints text from the current position. When the right margin is
-// reached (or the \n character is met) a line break occurs and text continues
-// from the left margin. Upon method exit, the current position is left just at
-// the end of the text.
-//
-// It is possible to put a link on the text.
-//
-// h indicates the line height in the unit of measure specified in New().
+// WriteTextOpts
 func (gp *Fpdf) WriteTextOpts(h float64, txtStr string, opts CellOption, textOpts TextOption) error {
 	return gp.MultiCellOpts(0, h, txtStr, opts, textOpts)
 }
@@ -1075,20 +1081,7 @@ func (gp *Fpdf) MultiCell(w, h float64, txtStr string) error {
 	return gp.MultiCellOpts(w, h, txtStr, defaultopt, TextOption{})
 }
 
-// MultiCell supports printing text with line breaks. They can be automatic (as
-// soon as the text reaches the right border of the cell) or explicit (via the
-// \n character). As many cells as necessary are output, one below the other.
-//
-// Text can be aligned, centered or justified. The cell block can be framed and
-// the background painted. See CellFormat() for more details.
-//
-// The current position after calling MultiCell() is the beginning of the next
-// line, equivalent to calling CellFormat with ln equal to 1.
-//
-// w is the width of the cells. A value of zero indicates cells that reach to
-// the right margin.
-//
-// h indicates the line height of each cell in the unit of measure specified in New().
+// MultiCellOpts
 func (gp *Fpdf) MultiCellOpts(w, h float64, txtStr string, opts CellOption, textOpts TextOption) error {
 	gp.UnitsToPointsVar(&w, &h)
 	gp.curr.setLineHeight(h)
@@ -1224,30 +1217,32 @@ func (gp *Fpdf) Cell(w, h float64, text string) error {
 	return gp.cellWithOption(rectangle, text, defaultopt, TextOption{})
 }
 
-//AddLink
+// AddExternalLink
 func (gp *Fpdf) AddExternalLink(url string, x, y, w, h float64) {
 	gp.UnitsToPointsVar(&x, &y, &w, &h)
 	page := gp.currentPage()
 	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(PageBoundaryMedia) - y, w, h, url, ""})
 }
 
+// AddInternalLink
 func (gp *Fpdf) AddInternalLink(anchor string, x, y, w, h float64) {
 	gp.UnitsToPointsVar(&x, &y, &w, &h)
 	page := gp.currentPage()
 	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(PageBoundaryMedia) - y, w, h, "", anchor})
 }
 
+// SetAnchor
 func (gp *Fpdf) SetAnchor(name string) {
 	y := gp.GetBoundaryHeight(PageBoundaryMedia) - gp.curr.Y + float64(gp.curr.Font_Size)
 	gp.anchors[name] = anchorOption{gp.curr.IndexOfPageObj, y}
 }
 
-//AddTTFFontByReader add font file
+// AddTTFFontByReader add font file
 func (gp *Fpdf) AddTTFFontByReader(family string, rd io.Reader) error {
 	return gp.AddTTFFontByReaderWithOption(family, rd, defaultTtfFontOption())
 }
 
-//AddTTFFontByReaderWithOption add font file
+// AddTTFFontByReaderWithOption add font file
 func (gp *Fpdf) AddTTFFontByReaderWithOption(family string, rd io.Reader, option TtfOption) error {
 	subsetFont, err := SubsetFontByReaderWithOption(rd, option)
 	if err != nil {
@@ -1257,11 +1252,12 @@ func (gp *Fpdf) AddTTFFontByReaderWithOption(family string, rd io.Reader, option
 	return gp.AddTTFFontBySubsetFont(family, subsetFont)
 }
 
+// SubsetFontByReader
 func SubsetFontByReader(rd io.Reader) (*SubsetFontObj, error) {
-
 	return SubsetFontByReaderWithOption(rd, defaultTtfFontOption())
 }
 
+// SubsetFontByReaderWithOption
 func SubsetFontByReaderWithOption(rd io.Reader, option TtfOption) (*SubsetFontObj, error) {
 	subsetFont := new(SubsetFontObj)
 	subsetFont.SetTtfFontOption(option)
@@ -1270,6 +1266,7 @@ func SubsetFontByReaderWithOption(rd io.Reader, option TtfOption) (*SubsetFontOb
 	return subsetFont, err
 }
 
+// AddTTFFontBySubsetFont
 func (gp *Fpdf) AddTTFFontBySubsetFont(family string, subsetFont *SubsetFontObj) error {
 	if _, id, ok := gp.pdfObjs.hasProcsetObj(subsetFont); ok {
 		actualSubsetFont := gp.pdfObjs.getSubsetFont(id)
@@ -1321,7 +1318,7 @@ func (gp *Fpdf) AddTTFFontBySubsetFont(family string, subsetFont *SubsetFontObj)
 	return nil
 }
 
-//AddTTFFontWithOption : add font file
+// AddTTFFontWithOption : add font file
 func (gp *Fpdf) AddTTFFontWithOption(family string, ttfpath string, option TtfOption) error {
 
 	if _, err := os.Stat(ttfpath); os.IsNotExist(err) {
@@ -1335,12 +1332,12 @@ func (gp *Fpdf) AddTTFFontWithOption(family string, ttfpath string, option TtfOp
 	return gp.AddTTFFontByReaderWithOption(family, rd, option)
 }
 
-//AddTTFFont : add font file
+// AddTTFFont : add font file
 func (gp *Fpdf) AddTTFFont(family string, ttfpath string) error {
 	return gp.AddTTFFontWithOption(family, ttfpath, defaultTtfFontOption())
 }
 
-//KernOverride override kern value
+// KernOverride overrides kerning value.
 func (gp *Fpdf) KernOverride(family string, fn FuncKernOverride) error {
 	fonts := gp.pdfObjs.allOf(subsetFontType)
 	max := len(fonts)
@@ -1354,7 +1351,7 @@ func (gp *Fpdf) KernOverride(family string, fn FuncKernOverride) error {
 	return errors.New("font family not found")
 }
 
-//SetTextColor :  function sets the text color
+// SetTextColor :  function sets the text color
 func (gp *Fpdf) SetTextColor(r uint8, g uint8, b uint8) {
 	rgb := Rgb{
 		r: r,
@@ -1364,27 +1361,27 @@ func (gp *Fpdf) SetTextColor(r uint8, g uint8, b uint8) {
 	gp.curr.setTextColor(rgb)
 }
 
-//SetRBStrokeColor set the color for the stroke
+// SetRGBStrokeColor sets the color for lines in drawings.
 func (gp *Fpdf) SetRGBStrokeColor(r uint8, g uint8, b uint8) {
 	gp.currentContent().AppendStreamSetRGBColorStroke(r, g, b)
 }
 
-//SetRGBFillColor set the color for the stroke
+// SetRGBFillColor set the color for the stroke.
 func (gp *Fpdf) SetRGBFillColor(r uint8, g uint8, b uint8) {
 	gp.currentContent().AppendStreamSetRGBColorFill(r, g, b)
 }
 
-//SetCMYKStrokeColor set the color for the stroke
+// SetCMYKStrokeColor set the color for the stroke
 func (gp *Fpdf) SetCMYKStrokeColor(c, m, y, k uint8) {
 	gp.currentContent().AppendStreamSetCMYKColorStroke(c, m, y, k)
 }
 
-//SetCMYKFillColor set the color for the stroke
+// SetCMYKFillColor set the color for the stroke
 func (gp *Fpdf) SetCMYKFillColor(c, m, y, k uint8) {
 	gp.currentContent().AppendStreamSetCMYKColorFill(c, m, y, k)
 }
 
-//MeasureTextWidth : measure Width of text (use current font)
+// MeasureTextWidth : measure Width of text (use current font)
 func (gp *Fpdf) MeasureTextWidth(text string, textOpt TextOption) (float64, error) {
 	return gp.measureTextWidth(text, gp.curr.unit, textOpt)
 }
@@ -1435,9 +1432,9 @@ func (gp *Fpdf) SetProtection(permissions int, userPass []byte, ownerPass []byte
 	gp.pdfProtection.setProtection(permissions, userPass, ownerPass)
 }*/
 
-//Rotate rotate text or image
-// angle is angle in degrees.
-// x, y is rotation center
+// Rotate text or image.
+// Angle is angle in degrees.
+// x, y are rotation center
 func (gp *Fpdf) Rotate(angle, x, y float64) {
 	gp.UnitsToPointsVar(&x, &y)
 	gp.currentContent().appendRotate(angle, x, y)
@@ -1448,7 +1445,9 @@ func (gp *Fpdf) RotateReset() {
 	gp.currentContent().appendRotateReset()
 }
 
-/*---private---*/
+// ============================================================================
+// private methods & functions
+// ============================================================================
 
 //init
 func (gp *Fpdf) init() {
@@ -1594,7 +1593,7 @@ func (gp *Fpdf) PointsToUnits(u float64) float64 {
 	return PointsToUnits(gp.curr.unit, u)
 }
 
-// PointsToUnits converts the points to the documents unit type for all variables passed in
+// PointsToUnitsVar converts the points to the documents unit type for all variables passed in
 func (gp *Fpdf) PointsToUnitsVar(u ...*float64) {
 	PointsToUnitsVar(gp.curr.unit, u...)
 }
@@ -1616,4 +1615,4 @@ func infodate(t time.Time) string {
 	return ft
 }
 
-//tool for validate pdf https://www.pdf-online.com/osa/validate.aspx
+// tool for validate pdf https://www.pdf-online.com/osa/validate.aspx

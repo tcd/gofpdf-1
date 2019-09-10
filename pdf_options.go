@@ -2,7 +2,7 @@ package gofpdf
 
 import "fmt"
 
-// A pdf option is passed into the New method to set up the initial state of the pdf being generated.
+// PdfOption is passed into the New method to set up the initial state of the pdf being generated.
 type PdfOption interface {
 	apply(pdf *Fpdf) error
 }
@@ -42,7 +42,8 @@ func (p *pageBoundaryPdfOption) apply(gp *Fpdf) error {
 	return nil
 }
 
-// PdfOptionPageBoundary creates a PdfOption that sets a page boundary. Options that can be set are MediaBox, BleedBox, TrimBox, CropBox and ArtBox
+// PdfOptionPageBoundary creates a PdfOption that sets a page boundary.
+// Options that can be set are MediaBox, BleedBox, TrimBox, CropBox and ArtBox
 func PdfOptionPageBoundary(t int, x, y, w, h float64) PdfOption {
 	return &pageBoundaryPdfOption{
 		t: t,
@@ -53,7 +54,8 @@ func PdfOptionPageBoundary(t int, x, y, w, h float64) PdfOption {
 	}
 }
 
-// PdfOptionPageSize creates a PdfOption that sets the size of the document. This also sets the size of the MediaBox
+// PdfOptionPageSize creates a PdfOption that sets the size of the document.
+// This also sets the size of the MediaBox.
 func PdfOptionPageSize(w, h float64) PdfOption {
 	return PdfOptionPageBoundary(PageBoundaryMedia, 0, 0, w, h)
 }

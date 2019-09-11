@@ -14,7 +14,7 @@ func TestWriteUInt32(t *testing.T) {
 
 	b := buff.Bytes()
 	if b[0] != 0 || b[1] != 1 || b[2] != 0 || b[3] != 0 {
-		t.Errorf("WriteUInt64 fail")
+		t.Error("WriteUInt64 fail")
 	}
 }
 

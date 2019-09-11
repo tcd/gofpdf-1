@@ -31,7 +31,7 @@ func TestFontSerialization(t *testing.T) {
 	}
 
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 	if err != nil {
@@ -45,7 +45,7 @@ func TestFontSerialization(t *testing.T) {
 
 func TestImageObj(t *testing.T) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 	pdf.AddPage()
@@ -68,7 +68,7 @@ func TestImageObj(t *testing.T) {
 
 func TestTemplateAutoPage(t *testing.T) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 
@@ -109,7 +109,7 @@ func TestTemplateAutoPage(t *testing.T) {
 
 func TestTemplatePages(t *testing.T) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 
@@ -162,7 +162,7 @@ func TestAutoWidth(t *testing.T) {
 
 func BenchmarkTemplateSerialization(b *testing.B) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 
@@ -294,7 +294,7 @@ func BenchmarkImageSerialization(b *testing.B) {
 
 func BenchmarkPdfWithImageObj(b *testing.B) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 	if err != nil {
@@ -322,7 +322,7 @@ func BenchmarkPdfWithImageObj(b *testing.B) {
 
 func BenchmarkPdfWithImageHolder(b *testing.B) {
 	pdf, err := New(
-		PdfOptionUnit(Unit_IN),
+		PdfOptionUnit(UnitIN),
 		PdfOptionPageSize(12, 12),
 	)
 	if err != nil {

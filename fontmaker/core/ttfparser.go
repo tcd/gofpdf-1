@@ -18,10 +18,13 @@ import (
 	"github.com/tcd/gofpdf-1/geh"
 )
 
-var ERROR_NO_UNICODE_ENCODING_FOUND = errors.New("No Unicode encoding found")
-var ERROR_UNEXPECTED_SUBTABLE_FORMAT = errors.New("Unexpected subtable format")
-var ERROR_INCORRECT_MAGIC_NUMBER = errors.New("Incorrect magic number")
-var ERROR_POSTSCRIPT_NAME_NOT_FOUND = errors.New("PostScript name not found")
+var (
+	ErrorNoUnicodeEncodingFound   = errors.New("No Unicode encoding found")
+	ErrorUnexpectedSubtableFormat = errors.New("Unexpected subtable format")
+	ErrorIncorrectMagicNumber     = errors.New("Incorrect magic number")
+	ErrorPostscriptNameNotFound   = errors.New("PostScript name not found")
+	ErrTableNotFound              = errors.New("Table not found")
+)
 
 //TTFParser true type font parser
 type TTFParser struct {
@@ -598,7 +601,7 @@ func (t *TTFParser) ParseName(fd *bytes.Reader) error {
 	}
 
 	if t.postScriptName == "" {
-		return ERROR_POSTSCRIPT_NAME_NOT_FOUND
+		return ErrorPostscriptNameNotFound
 	}
 
 	//fmt.Printf("%s\n", me.postScriptName)
@@ -651,7 +654,7 @@ func (t *TTFParser) ParseCmap(fd *bytes.Reader) error {
 
 	if offset31 == 0 {
 		//No Unicode encoding found
-		return ERROR_NO_UNICODE_ENCODING_FOUND
+		return ErrorNoUnicodeEncodingFound
 	}
 
 	var startCount, endCount, idDelta, idRangeOffset, glyphIDArray []uint
@@ -668,7 +671,7 @@ func (t *TTFParser) ParseCmap(fd *bytes.Reader) error {
 
 	if format != 4 {
 		//Unexpected subtable format
-		return ERROR_UNEXPECTED_SUBTABLE_FORMAT
+		return ErrorUnexpectedSubtableFormat
 	}
 
 	length, err := t.ReadUShort(fd)
@@ -867,7 +870,7 @@ func (t *TTFParser) ParseHead(fd *bytes.Reader) error {
 
 	//fmt.Printf("\nmagicNumber = %d\n", magicNumber)
 	if magicNumber != 0x5F0F3CF5 {
-		return ERROR_INCORRECT_MAGIC_NUMBER
+		return ErrorIncorrectMagicNumber
 	}
 
 	err = t.Skip(fd, 2)

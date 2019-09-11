@@ -13,7 +13,7 @@ type unitPdfOption struct {
 }
 
 func (u *unitPdfOption) apply(gp *Fpdf) error {
-	if u.unit >= unit_max {
+	if u.unit >= unitMax {
 		return fmt.Errorf("unit value %d is not valid", u.unit)
 	}
 	gp.curr.unit = u.unit

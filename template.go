@@ -276,9 +276,9 @@ func (gp *Fpdf) loadParamsFromFpdf(f *Fpdf) {
 	gp.SetLineJoinStyle(f.curr.joinStyle)
 
 	gp.loadFontsFromFpdf(f)
-	gp.curr.Font_Size = f.curr.Font_Size
-	gp.curr.Font_Style = f.curr.Font_Style
-	gp.curr.Font_Type = f.curr.Font_Type
+	gp.curr.FontSize = f.curr.FontSize
+	gp.curr.FontStyle = f.curr.FontStyle
+	gp.curr.FontType = f.curr.FontType
 }
 
 func (gp *Fpdf) loadFontsFromFpdf(f *Fpdf) {
@@ -287,8 +287,8 @@ func (gp *Fpdf) loadFontsFromFpdf(f *Fpdf) {
 	for x := 0; x < max; x++ {
 		ssf := gp.loadFontFromFpdf(f, fonts[x])
 		// set the current font
-		if ssf.procsetIdentifier() == f.curr.Font_ISubset.procsetIdentifier() {
-			gp.curr.Font_ISubset = ssf
+		if ssf.procsetIdentifier() == f.curr.FontISubset.procsetIdentifier() {
+			gp.curr.FontISubset = ssf
 		}
 	}
 }

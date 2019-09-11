@@ -11,10 +11,13 @@ type Current struct {
 	CountOfFont    int
 	CountOfL       int
 
-	Font_Size      float64
-	Font_Style     int // Regular|Bold|Italic|Underline
-	Font_FontCount int
-	Font_Type      int // CURRENT_FONT_TYPE_IFONT or  CURRENT_FONT_TYPE_SUBSET
+	FontSize  float64
+	FontStyle int // Regular | Bold | Italic | Underline
+	FontCount int
+	FontType  int // CURRENT_FontType_IFONT or  CURRENT_FontType_SUBSET
+
+	FontISubset *SubsetFontObj // FontType == CURRENT_FontType_SUBSET
+	TextOption
 
 	Font_ISubset *SubsetFontObj // Font_Type == CURRENT_FONT_TYPE_SUBSET
 	Text_Option  TextOption

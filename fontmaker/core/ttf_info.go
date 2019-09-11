@@ -4,8 +4,10 @@ import (
 	"errors"
 )
 
-var ERROR_NO_KEY_FOUND = errors.New("no key found")
-var ERROR_NO_GET_WRONG_TYPE = errors.New("get wrong type")
+var (
+	ErrorNoKeyFound = errors.New("no key found")
+	ErrorWrongType  = errors.New("get wrong type")
+)
 
 type TtfInfo map[string]interface{}
 
@@ -48,10 +50,10 @@ func (me TtfInfo) GetBool(key string) (bool, error) {
 			/* act on str */
 			return m, nil
 		} else {
-			return false, ERROR_NO_GET_WRONG_TYPE
+			return false, ErrorWrongType
 		}
 	} else {
-		return false, ERROR_NO_KEY_FOUND
+		return false, ErrorNoKeyFound
 	}
 }
 
@@ -62,10 +64,10 @@ func (me TtfInfo) GetString(key string) (string, error) {
 			/* act on str */
 			return m, nil
 		} else {
-			return "", ERROR_NO_GET_WRONG_TYPE
+			return "", ErrorWrongType
 		}
 	} else {
-		return "", ERROR_NO_KEY_FOUND
+		return "", ErrorNoKeyFound
 	}
 }
 
@@ -76,10 +78,10 @@ func (me TtfInfo) GetInt64(key string) (int, error) {
 			/* act on str */
 			return m, nil
 		} else {
-			return 0, ERROR_NO_GET_WRONG_TYPE
+			return 0, ErrorWrongType
 		}
 	} else {
-		return 0, ERROR_NO_KEY_FOUND
+		return 0, ErrorNoKeyFound
 	}
 }
 
@@ -90,10 +92,10 @@ func (me TtfInfo) GetInt64s(key string) ([]int, error) {
 			/* act on str */
 			return m, nil
 		} else {
-			return nil, ERROR_NO_GET_WRONG_TYPE
+			return nil, ErrorWrongType
 		}
 	} else {
-		return nil, ERROR_NO_KEY_FOUND
+		return nil, ErrorNoKeyFound
 	}
 }
 
@@ -104,10 +106,10 @@ func (me TtfInfo) GetMapIntInt64(key string) (map[int]int, error) {
 			/* act on str */
 			return m, nil
 		} else {
-			return nil, ERROR_NO_GET_WRONG_TYPE
+			return nil, ErrorWrongType
 		}
 	} else {
-		return nil, ERROR_NO_KEY_FOUND
+		return nil, ErrorNoKeyFound
 	}
 }
 

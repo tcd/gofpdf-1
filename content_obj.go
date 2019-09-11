@@ -89,12 +89,12 @@ func (c *ContentObj) AppendStreamText(text string) error {
 	//support only CURRENT_FONT_TYPE_SUBSET
 	textColor := c.getRoot().curr.textColor()
 	grayFill := c.getRoot().curr.grayFill
-	fontSize := c.getRoot().curr.Font_Size
-	fontStyle := c.getRoot().curr.Font_Style
+	fontSize := c.getRoot().curr.FontSize
+	fontStyle := c.getRoot().curr.FontStyle
 	x := c.getRoot().curr.X
 	y := c.getRoot().curr.Y
 	setXCount := c.getRoot().curr.setXCount
-	fontSubset := c.getRoot().curr.Font_ISubset
+	fontSubset := c.getRoot().curr.FontISubset
 	fontObjId := fontSubset.procsetIdentifier()
 
 	cache := cacheContentText{
@@ -127,12 +127,12 @@ func (c *ContentObj) AppendStreamSubsetFont(rectangle Rect, text string, cellOpt
 
 	textColor := c.getRoot().curr.textColor()
 	grayFill := c.getRoot().curr.grayFill
-	fontSize := c.getRoot().curr.Font_Size
-	fontStyle := c.getRoot().curr.Font_Style
+	fontSize := c.getRoot().curr.FontSize
+	fontStyle := c.getRoot().curr.FontStyle
 	x := c.getRoot().curr.X
 	y := c.getRoot().curr.Y
 	setXCount := c.getRoot().curr.setXCount
-	fontSubset := c.getRoot().curr.Font_ISubset
+	fontSubset := c.getRoot().curr.FontISubset
 	fontObjId := fontSubset.procsetIdentifier()
 
 	cache := cacheContentText{

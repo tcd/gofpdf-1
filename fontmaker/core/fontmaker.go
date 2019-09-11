@@ -235,7 +235,7 @@ func (f *FontMaker) MakeFontDescriptor(info TtfInfo) (string, error) {
 	capHeight, err := info.GetInt64("CapHeight")
 	if err == nil {
 		fd += fmt.Sprintf("\tme.desc[2] =  gofpdf.FontDescItem{ Key:\"CapHeight\", Val :  \"%d\" }\n", capHeight)
-	} else if err == ERROR_NO_KEY_FOUND {
+	} else if err == ErrorNoKeyFound {
 		fd += fmt.Sprintf("\tme.desc[2] =  gofpdf.FontDescItem{ Key:\"CapHeight\", Val :  \"%d\" }\n", ascender)
 	} else {
 		return "", err
@@ -273,7 +273,7 @@ func (f *FontMaker) MakeFontDescriptor(info TtfInfo) (string, error) {
 	issetStdVW := false
 	if err == nil {
 		issetStdVW = true
-	} else if err == ERROR_NO_KEY_FOUND {
+	} else if err == ErrorNoKeyFound {
 		issetStdVW = false
 	} else {
 		return "", err

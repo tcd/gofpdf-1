@@ -69,7 +69,7 @@ func (gp *Fpdf) TransformScale(scaleWd, scaleHt, x, y float64) error {
 		return fmt.Errorf("scale factor cannot be zero")
 	}
 
-	y = gp.GetBoundaryHeight(PageBoundaryMedia) - y
+	y = gp.GetBoundaryHeight(MediaBox) - y
 
 	scaleWd /= 100
 	scaleHt /= 100
@@ -145,7 +145,7 @@ func (gp *Fpdf) TransformTranslate(tx, ty float64) {
 // The TransformBegin() example demonstrates this method.
 func (gp *Fpdf) TransformRotate(angle, x, y float64) {
 	gp.UnitsToPointsVar(&x, &y)
-	y = gp.GetBoundaryHeight(PageBoundaryMedia) - y
+	y = gp.GetBoundaryHeight(MediaBox) - y
 	angle = angle * math.Pi / 180
 	var tm TransformMatrix
 	tm.A = math.Cos(angle)
@@ -187,7 +187,7 @@ func (gp *Fpdf) TransformSkew(angleX, angleY, x, y float64) error {
 	}
 
 	gp.UnitsToPointsVar(&x, &y)
-	y = gp.GetBoundaryHeight(PageBoundaryMedia) - y
+	y = gp.GetBoundaryHeight(MediaBox) - y
 
 	var tm TransformMatrix
 	tm.A = 1

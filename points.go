@@ -1,10 +1,10 @@
 package gofpdf
 
-// An array of Point objects
+// Points slice.
 type Points []Point
 
-// ToUnits will convert the Points, assumed to be in pts, to Units
-func (pts Points) ToUnits(t int) Points {
+// ToUnits will convert the Points, assumed to be in pts, to Units.
+func (pts Points) ToUnits(t Unit) Points {
 	points := make(Points, len(pts))
 
 	for x := 0; x < len(pts); x++ {
@@ -14,8 +14,8 @@ func (pts Points) ToUnits(t int) Points {
 	return points
 }
 
-// ToPoints will convert the Points, assumed to be in units, to pts
-func (pts Points) ToPoints(t int) Points {
+// ToPoints will convert the Points, assumed to be in units, to pts.
+func (pts Points) ToPoints(t Unit) Points {
 	points := make(Points, len(pts))
 
 	for x := 0; x < len(pts); x++ {
@@ -36,16 +36,16 @@ func (p Point) XY() (float64, float64) {
 	return p.X, p.Y
 }
 
-// ToUnits will conver the point, assumed to be in pts, to the specified units
-func (p Point) ToUnits(t int) Point {
+// ToUnits will convert the point, assumed to be in pts, to the specified units.
+func (p Point) ToUnits(t Unit) Point {
 	return Point{
 		X: PointsToUnits(t, p.X),
 		Y: PointsToUnits(t, p.Y),
 	}
 }
 
-// ToPoints converts the Point, assumed to be in units, to points
-func (p Point) ToPoints(t int) Point {
+// ToPoints converts the Point, assumed to be in units, to points.
+func (p Point) ToPoints(t Unit) Point {
 	return Point{
 		X: UnitsToPoints(t, p.X),
 		Y: UnitsToPoints(t, p.Y),

@@ -122,8 +122,8 @@ func (gp *Fpdf) Template(corner Point) (*FpdfTpl, error) {
 			return nil, err
 		}
 
-		if pb := page.pageOption.GetBoundary(PageBoundaryMedia); pb != nil {
-			sizes[x] = gp.GetBoundarySize(PageBoundaryMedia)
+		if pb := page.pageOption.GetBoundary(MediaBox); pb != nil {
+			sizes[x] = gp.GetBoundarySize(MediaBox)
 		}
 	}
 

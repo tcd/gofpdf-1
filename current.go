@@ -40,7 +40,7 @@ type Current struct {
 	joinStyle int
 
 	lheight    float64
-	unit       int
+	unit       Unit
 	pageOption PageOption
 }
 

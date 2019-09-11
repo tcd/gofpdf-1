@@ -7,9 +7,9 @@ type PdfOption interface {
 	apply(pdf *Fpdf) error
 }
 
-// unitPdfOption implements PdfOption and will set the unit type for the pdf
+// unitPdfOption implements PdfOption and will set the unit type for the pdf.
 type unitPdfOption struct {
-	unit int
+	unit Unit
 }
 
 func (u *unitPdfOption) apply(gp *Fpdf) error {
@@ -20,31 +20,27 @@ func (u *unitPdfOption) apply(gp *Fpdf) error {
 	return nil
 }
 
-// PdfOptionUnit Creates an option that sets the pdf unit
-func PdfOptionUnit(unit int) PdfOption {
+// PdfOptionUnit Creates an option that sets the pdf unit.
+func PdfOptionUnit(unit Unit) PdfOption {
 	return &unitPdfOption{
 		unit: unit,
 	}
 }
 
 type pageBoundaryPdfOption struct {
-	t          int
+	t          BoundaryBox
 	x, y, w, h float64
 }
 
 func (p *pageBoundaryPdfOption) apply(gp *Fpdf) error {
-	pb, err := gp.NewPageBoundary(p.t, p.x, p.y, p.w, p.h)
-	if err != nil {
-		return err
-	}
-
+	pb := gp.NewPageBoundary(p.t, p.x, p.y, p.w, p.h)
 	gp.curr.pageOption.AddPageBoundary(pb)
 	return nil
 }
 
 // PdfOptionPageBoundary creates a PdfOption that sets a page boundary.
-// Options that can be set are MediaBox, BleedBox, TrimBox, CropBox and ArtBox
-func PdfOptionPageBoundary(t int, x, y, w, h float64) PdfOption {
+// Options that can be set are MediaBox, BleedBox, TrimBox, CropBox, and ArtBox.
+func PdfOptionPageBoundary(t BoundaryBox, x, y, w, h float64) PdfOption {
 	return &pageBoundaryPdfOption{
 		t: t,
 		x: x,
@@ -57,32 +53,32 @@ func PdfOptionPageBoundary(t int, x, y, w, h float64) PdfOption {
 // PdfOptionPageSize creates a PdfOption that sets the size of the document.
 // This also sets the size of the MediaBox.
 func PdfOptionPageSize(w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryMedia, 0, 0, w, h)
+	return PdfOptionPageBoundary(MediaBox, 0, 0, w, h)
 }
 
-// PdfOptionMediaBox creates a PdfOption that sets the documents MediaBox
+// PdfOptionMediaBox creates a PdfOption that sets the documents MediaBox.
 func PdfOptionMediaBox(x, y, w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryMedia, x, y, w, h)
+	return PdfOptionPageBoundary(MediaBox, x, y, w, h)
 }
 
-// PdfOptionBleedBox creates a PdfOption that sets the documents BleedBox
+// PdfOptionBleedBox creates a PdfOption that sets the documents BleedBox.
 func PdfOptionBleedBox(x, y, w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryBleed, x, y, w, h)
+	return PdfOptionPageBoundary(BleedBox, x, y, w, h)
 }
 
-// PdfOptionTrimBox creates a PdfOption that sets the documents TrimBox
+// PdfOptionTrimBox creates a PdfOption that sets the documents TrimBox.
 func PdfOptionTrimBox(x, y, w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryTrim, x, y, w, h)
+	return PdfOptionPageBoundary(TrimBox, x, y, w, h)
 }
 
-// PdfOptionCropBox creates a PdfOption that sets the documents CropBox
+// PdfOptionCropBox creates a PdfOption that sets the documents CropBox.
 func PdfOptionCropBox(x, y, w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryCrop, x, y, w, h)
+	return PdfOptionPageBoundary(CropBox, x, y, w, h)
 }
 
-// PdfOptionArtBox creates a PdfOption that sets the documents ArtBox
+// PdfOptionArtBox creates a PdfOption that sets the documents ArtBox.
 func PdfOptionArtBox(x, y, w, h float64) PdfOption {
-	return PdfOptionPageBoundary(PageBoundaryArt, x, y, w, h)
+	return PdfOptionPageBoundary(ArtBox, x, y, w, h)
 }
 
 type marginsPdfOption struct {
@@ -136,7 +132,7 @@ func (p *protectionPdfOption) apply(gp *Fpdf) error {
 	return nil
 }
 
-// PdfOptionProtection creates a PdfOption that set the protection for the document
+// PdfOptionProtection creates a PdfOption that sets the protection for the document.
 func PdfOptionProtection(permissions int, userpass string, ownerpass string) PdfOption {
 	return &protectionPdfOption{
 		permissions: permissions,

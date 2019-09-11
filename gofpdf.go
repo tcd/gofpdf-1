@@ -18,7 +18,7 @@ import (
 const subsetFont = "SubsetFont"
 
 // the default margin if no margins are set
-const defaultMargin = 1 * conversion_Unit_CM
+const defaultMargin = 1 * conversionCM
 
 //Fpdf : A simple library for generating PDF written in Go lang
 type Fpdf struct {
@@ -59,7 +59,7 @@ func (gp *Fpdf) SetPageBoundary(pb *PageBoundary) {
 }
 
 // GetPageBoundary
-func (gp *Fpdf) GetPageBoundary(t int) *PageBoundary {
+func (gp *Fpdf) GetPageBoundary(t BoundaryBox) *PageBoundary {
 	if page := gp.currentPage(); page != nil {
 		if boundary := page.pageOption.GetBoundary(t); boundary != nil {
 			return boundary
@@ -70,7 +70,7 @@ func (gp *Fpdf) GetPageBoundary(t int) *PageBoundary {
 }
 
 // GetBoundarySize
-func (gp *Fpdf) GetBoundarySize(t int) (rec Rect) {
+func (gp *Fpdf) GetBoundarySize(t BoundaryBox) (rec Rect) {
 	if pb := gp.GetPageBoundary(t); pb != nil {
 		rec = pb.Size
 	}
@@ -78,7 +78,7 @@ func (gp *Fpdf) GetBoundarySize(t int) (rec Rect) {
 }
 
 // GetBoundaryPosition
-func (gp *Fpdf) GetBoundaryPosition(t int) (p Point) {
+func (gp *Fpdf) GetBoundaryPosition(t BoundaryBox) (p Point) {
 	if pb := gp.GetPageBoundary(t); pb != nil {
 		p = pb.Position
 	}
@@ -86,22 +86,22 @@ func (gp *Fpdf) GetBoundaryPosition(t int) (p Point) {
 }
 
 // GetBoundaryX
-func (gp *Fpdf) GetBoundaryX(t int) float64 {
+func (gp *Fpdf) GetBoundaryX(t BoundaryBox) float64 {
 	return gp.GetBoundaryPosition(t).X
 }
 
 // GetBoundaryY
-func (gp *Fpdf) GetBoundaryY(t int) float64 {
+func (gp *Fpdf) GetBoundaryY(t BoundaryBox) float64 {
 	return gp.GetBoundaryPosition(t).Y
 }
 
 // GetBoundaryWidth
-func (gp *Fpdf) GetBoundaryWidth(t int) float64 {
+func (gp *Fpdf) GetBoundaryWidth(t BoundaryBox) float64 {
 	return gp.GetBoundarySize(t).W
 }
 
 // GetBoundaryHeight
-func (gp *Fpdf) GetBoundaryHeight(t int) float64 {
+func (gp *Fpdf) GetBoundaryHeight(t BoundaryBox) float64 {
 	return gp.GetBoundarySize(t).H
 }
 
@@ -686,7 +686,7 @@ func (gp *Fpdf) CreateTemplateCustom(corner Point, fn TplFunc, opts ...PdfOption
 }
 
 // CreateTemplate creates a template that is not attached to any document.
-func CreateTemplate(corner Point, unit int, fn TplFunc, opts ...PdfOption) (Template, error) {
+func CreateTemplate(corner Point, unit Unit, fn TplFunc, opts ...PdfOption) (Template, error) {
 	corner = corner.ToPoints(unit)
 	return newTpl(corner, opts, fn, nil)
 }
@@ -1118,11 +1118,11 @@ func (gp *Fpdf) MultiCellOpts(w, h float64, txtStr string, opts CellOption, text
 }
 
 func (gp *Fpdf) rightMarginWidth(leftOffset float64) float64 {
-	return gp.GetBoundaryWidth(PageBoundaryMedia) - gp.margins.Right - leftOffset
+	return gp.GetBoundaryWidth(MediaBox) - gp.margins.Right - leftOffset
 }
 
 func (gp *Fpdf) bottomMarginHeight() float64 {
-	return gp.GetBoundaryHeight(PageBoundaryMedia) - gp.margins.Bottom
+	return gp.GetBoundaryHeight(MediaBox) - gp.margins.Bottom
 }
 
 func (gp *Fpdf) splitLines(txt string, w float64, textOpts TextOption) ([]string, error) {
@@ -1221,19 +1221,19 @@ func (gp *Fpdf) Cell(w, h float64, text string) error {
 func (gp *Fpdf) AddExternalLink(url string, x, y, w, h float64) {
 	gp.UnitsToPointsVar(&x, &y, &w, &h)
 	page := gp.currentPage()
-	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(PageBoundaryMedia) - y, w, h, url, ""})
+	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(MediaBox) - y, w, h, url, ""})
 }
 
 // AddInternalLink
 func (gp *Fpdf) AddInternalLink(anchor string, x, y, w, h float64) {
 	gp.UnitsToPointsVar(&x, &y, &w, &h)
 	page := gp.currentPage()
-	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(PageBoundaryMedia) - y, w, h, "", anchor})
+	page.Links = append(page.Links, linkOption{x, gp.GetBoundaryHeight(MediaBox) - y, w, h, "", anchor})
 }
 
 // SetAnchor
 func (gp *Fpdf) SetAnchor(name string) {
-	y := gp.GetBoundaryHeight(PageBoundaryMedia) - gp.curr.Y + float64(gp.curr.Font_Size)
+	y := gp.GetBoundaryHeight(MediaBox) - gp.curr.Y + float64(gp.curr.FontSize)
 	gp.anchors[name] = anchorOption{gp.curr.IndexOfPageObj, y}
 }
 
@@ -1386,8 +1386,8 @@ func (gp *Fpdf) MeasureTextWidth(text string, textOpt TextOption) (float64, erro
 	return gp.measureTextWidth(text, gp.curr.unit, textOpt)
 }
 
-func (gp *Fpdf) measureTextWidth(text string, units int, textOpt TextOption) (float64, error) {
-	err := gp.curr.Font_ISubset.AddChars(text) //AddChars for create CharacterToGlyphIndex
+func (gp *Fpdf) measureTextWidth(text string, units Unit, textOpt TextOption) (float64, error) {
+	err := gp.curr.FontISubset.AddChars(text) //AddChars for create CharacterToGlyphIndex
 	if err != nil {
 		return 0, err
 	}
@@ -1478,8 +1478,8 @@ func (gp *Fpdf) init() {
 	// default to zlib.DefaultCompression
 	gp.compressLevel = zlib.DefaultCompression
 	// default units is points
-	gp.curr.unit = Unit_PT
-	gp.curr.pageOption.AddPageBoundary(NewPageSizeBoundary(Unit_PT, PageSizeA4.W, PageSizeA4.H))
+	gp.curr.unit = UnitPT
+	gp.curr.pageOption.AddPageBoundary(NewPageSizeBoundary(UnitPT, PageSizeA4.W, PageSizeA4.H))
 }
 
 func (gp *Fpdf) resetCurrXY() {

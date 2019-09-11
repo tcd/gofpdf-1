@@ -8,18 +8,18 @@ import (
 
 const encryptionType = "Encryption"
 
-//EncryptionObj  encryption object res
+// EncryptionObj
 type EncryptionObj struct {
-	uValue []byte //U entry in pdf document
-	oValue []byte //O entry in pdf document
-	pValue int    //P entry in pdf document
+	uValue []byte // U entry in pdf document
+	oValue []byte // O entry in pdf document
+	pValue int    // P entry in pdf document
 }
 
 func (e *EncryptionObj) init(func() *Fpdf) {
 
 }
 
-func (e *EncryptionObj) getType() string {
+func (e *EncryptionObj) String() string {
 	return encryptionType
 }
 

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"strings"
+
+	"github.com/tcd/gofpdf-1/cache"
 )
 
 const pageType = "Page"
@@ -17,6 +19,8 @@ type PageObj struct {
 	indexOfContentObj int
 	getRoot           func() *Fpdf
 }
+
+func (p *PageObj) String() string { return pageType }
 
 func (p *PageObj) init(funcGetRoot func() *Fpdf) {
 	p.getRoot = funcGetRoot
@@ -34,7 +38,7 @@ func (p *PageObj) setIndexOfContentObj(index int) {
 
 func (p *PageObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, "<<\n")
-	fmt.Fprintf(w, "  /Type /%s\n", p.getType())
+	fmt.Fprintf(w, "  /Type /%s\n", p)
 	io.WriteString(w, "  /Parent 2 0 R\n")
 	fmt.Fprintf(w, "  /Resources %s\n", p.ResourcesRelate)
 
@@ -91,10 +95,6 @@ func (p *PageObj) writeInternalLink(w io.Writer, l linkOption, anchors map[strin
 	return err
 }
 
-func (p *PageObj) getType() string {
-	return pageType
-}
-
-func (p *PageObj) getContent() *ContentObj {
+func (p *PageObj) getContent() *cache.ContentObj {
 	return p.getRoot().pdfObjs.getPageContent(p)
 }

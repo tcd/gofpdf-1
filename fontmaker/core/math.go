@@ -1,5 +1,6 @@
 package core
 
+// Round a float64 and cast the result to an int.
 func Round(value float64) int {
 	if value < 0.0 {
 		value -= 0.5

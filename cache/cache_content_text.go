@@ -1,10 +1,12 @@
-package gofpdf
+package cache
 
 import (
 	"errors"
 	"fmt"
 	"io"
 	"math"
+
+	. "github.com/tcd/gofpdf-1"
 )
 
 //ContentTypeCell cell

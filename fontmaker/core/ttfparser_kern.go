@@ -5,7 +5,8 @@ import (
 	"fmt"
 )
 
-//Parsekern parse kerning table  https://www.microsoft.com/typography/otspec/kern.htm
+// Parsekern parse kerning table.
+// See: https://www.microsoft.com/typography/otspec/kern.htm
 func (t *TTFParser) Parsekern(fd *bytes.Reader) error {
 
 	t.kern = nil //clear

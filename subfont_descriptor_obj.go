@@ -7,7 +7,7 @@ import (
 	"github.com/tcd/gofpdf-1/fontmaker/core"
 )
 
-//SubfontDescriptorObj pdf subfont descriptorObj object
+// SubfontDescriptorObj pdf subfont descriptor object
 type SubfontDescriptorObj struct {
 	PtrToSubsetFontObj    *SubsetFontObj
 	indexObjPdfDictionary int
@@ -15,9 +15,7 @@ type SubfontDescriptorObj struct {
 
 func (s *SubfontDescriptorObj) init(func() *Fpdf) {}
 
-func (s *SubfontDescriptorObj) getType() string {
-	return "SubFontDescriptor"
-}
+func (s *SubfontDescriptorObj) String() string { return "SubFontDescriptor" }
 
 func (s *SubfontDescriptorObj) write(w io.Writer, objID int) error {
 	ttfp := s.PtrToSubsetFontObj.GetTTFParser()

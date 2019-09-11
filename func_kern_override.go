@@ -1,6 +1,6 @@
 package gofpdf
 
-//FuncKernOverride  return your custome pair value
+// FuncKernOverride return your custome pair value
 type FuncKernOverride func(
 	leftRune rune,
 	rightRune rune,

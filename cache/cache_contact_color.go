@@ -1,8 +1,10 @@
-package gofpdf
+package cache
 
 import (
 	"fmt"
 	"io"
+
+	. "github.com/tcd/gofpdf-1"
 )
 
 // Fill types and manipulants to get the numbers pdf spec wants

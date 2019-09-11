@@ -13,6 +13,8 @@ type EmbedFontObj struct {
 	getRoot   func() *Fpdf
 }
 
+func (e *EmbedFontObj) String() string { return "EmbedFont" }
+
 func (e *EmbedFontObj) init(funcGetRoot func() *Fpdf) {
 	e.getRoot = funcGetRoot
 }
@@ -43,10 +45,6 @@ func (e *EmbedFontObj) write(w io.Writer, objID int) error {
 	}
 	io.WriteString(w, "\nendstream\n")
 	return nil
-}
-
-func (e *EmbedFontObj) getType() string {
-	return "EmbedFont"
 }
 
 func (e *EmbedFontObj) SetFont(font IFont, zfontpath string) {

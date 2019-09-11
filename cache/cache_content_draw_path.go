@@ -1,9 +1,11 @@
-package gofpdf
+package cache
 
 import (
 	"fmt"
 	"io"
 	"strings"
+
+	. "github.com/tcd/gofpdf-1"
 )
 
 type cacheContentDrawPath struct {

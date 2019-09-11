@@ -32,6 +32,8 @@ type SubsetFontObj struct {
 	funcKernOverride      FuncKernOverride
 }
 
+func (s *SubsetFontObj) String() string { return subsetFontType }
+
 func (s *SubsetFontObj) Serialize() ([]byte, error) {
 	var b bytes.Buffer
 	enc := gob.NewEncoder(&b)
@@ -196,10 +198,6 @@ func (s *SubsetFontObj) CharWidth(r rune) (uint, error) {
 		return s.GlyphIndexToPdfWidth(glyIndex), nil
 	}
 	return 0, ErrCharNotFound
-}
-
-func (s *SubsetFontObj) getType() string {
-	return subsetFontType
 }
 
 func (s *SubsetFontObj) charCodeToGlyphIndexFormat12(r rune) (uint, error) {

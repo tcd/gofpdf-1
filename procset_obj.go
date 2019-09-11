@@ -15,6 +15,8 @@ type ProcSetObj struct {
 	getRoot     func() *Fpdf
 }
 
+func (pr *ProcSetObj) String() string { return procSetType }
+
 func (pr *ProcSetObj) init(funcGetRoot func() *Fpdf) {
 	pr.getRoot = funcGetRoot
 }
@@ -45,10 +47,6 @@ func (pr *ProcSetObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, ">>\n")
 	io.WriteString(w, ">>\n")
 	return nil
-}
-
-func (pr *ProcSetObj) getType() string {
-	return "ProcSet"
 }
 
 type RelateFonts []RelateFont

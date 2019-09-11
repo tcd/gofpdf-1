@@ -18,6 +18,7 @@ import (
 const imageType = "Image"
 
 //ImageObj image object
+// Implements IObj
 type ImageObj struct {
 	//imagepath string
 
@@ -28,6 +29,8 @@ type ImageObj struct {
 	imageid       string
 	getRoot       func() *Fpdf
 }
+
+func (i *ImageObj) String() string { return imageType }
 
 func (i *ImageObj) Serialize() ([]byte, error) {
 	var b bytes.Buffer
@@ -132,10 +135,6 @@ func (i *ImageObj) createDeviceRGB() (*DeviceRGBObj, error) {
 	var dRGB DeviceRGBObj
 	dRGB.data = i.imginfo.pal
 	return &dRGB, nil
-}
-
-func (i *ImageObj) getType() string {
-	return imageType
 }
 
 //SetImagePath set image path

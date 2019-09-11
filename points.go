@@ -6,22 +6,18 @@ type Points []Point
 // ToUnits will convert the Points, assumed to be in pts, to Units.
 func (pts Points) ToUnits(t Unit) Points {
 	points := make(Points, len(pts))
-
-	for x := 0; x < len(pts); x++ {
+	for x := range pts {
 		points[x] = pts[x].ToUnits(t)
 	}
-
 	return points
 }
 
 // ToPoints will convert the Points, assumed to be in units, to pts.
 func (pts Points) ToPoints(t Unit) Points {
 	points := make(Points, len(pts))
-
-	for x := 0; x < len(pts); x++ {
+	for x := range pts {
 		points[x] = pts[x].ToPoints(t)
 	}
-
 	return points
 }
 
@@ -31,7 +27,7 @@ type Point struct {
 	X, Y float64
 }
 
-// XY gets the X and Y points
+// XY gets the X and Y values of a Point.
 func (p Point) XY() (float64, float64) {
 	return p.X, p.Y
 }

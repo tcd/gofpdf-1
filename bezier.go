@@ -4,14 +4,19 @@ import "math"
 
 const bezierSampleCardinality = 10000
 
+// BezierCurve values.
+// See: https://en.wikipedia.org/wiki/Bézier_curve
 type BezierCurve struct {
 	Cx1, Cx2, Cx3, Cx4, Cy1, Cy2, Cy3, Cy4, Length float64
 }
 
+// BezierSpline is comprised of multiple BezierCurves.
 type BezierSpline []BezierCurve
 
+// BezierSplineSample is less strictly typed than BezierSpline.
 type BezierSplineSample [][]float64
 
+// BezierPoint represents a point in a BezierCurve.
 type BezierPoint struct {
 	pt        Point
 	normaldir float64
@@ -53,8 +58,8 @@ func (bc BezierCurve) At(t float64) Point {
 	return Point{x, y}
 }
 
+// Curve returns a uniform sample with respect to the parameter t.
 func (bc BezierCurve) Curve(p []Point) []Point {
-	// Returns a uniform sample with respect to the parameter t
 	for i, nf, l := 0, float64(len(p)-1), len(p); i < l; i++ {
 		p[i] = bc.At(float64(i) / nf)
 	}
@@ -74,6 +79,7 @@ func CurveLength(bc BezierCurve) float64 {
 	return d
 }
 
+// Distance between two Points.
 func Distance(p0, p1 Point) float64 {
 	return math.Sqrt(math.Pow(p1.Y-p0.Y, 2) + math.Pow(p1.X-p0.X, 2))
 }
@@ -119,6 +125,7 @@ func (bc BezierCurve) SampleByArcLength(sample []float64) []float64 {
 	return sample
 }
 
+// Tangent of a BezierCurve.
 func (bc BezierCurve) Tangent(t float64) Point {
 	dx := bc.Dx(t)
 	dy := bc.Dy(t)

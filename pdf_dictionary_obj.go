@@ -30,6 +30,8 @@ type PdfDictionaryObj struct {
 	pdfProtection *PDFProtection
 }
 
+func (p *PdfDictionaryObj) String() string { return "PdfDictionary" }
+
 func (p *PdfDictionaryObj) init(funcGetRoot func() *Fpdf) {
 	//p.getRoot = funcGetRoot
 }
@@ -78,10 +80,6 @@ func (p *PdfDictionaryObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, "\nendstream\n")
 
 	return nil
-}
-
-func (p *PdfDictionaryObj) getType() string {
-	return "PdfDictionary"
 }
 
 //SetPtrToSubsetFontObj set subsetFontObj pointer

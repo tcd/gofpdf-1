@@ -1,16 +1,14 @@
 package gofpdf
 
-import (
-	"io"
-)
+import "io"
 
-//IObj inteface for all pdf object
+// IObj inteface for all pdf objects.
 type IObj interface {
-	getType() string
+	String() string
 	write(w io.Writer, objID int) error
 }
 
-//ProcsetIObj interface for all pdf objects that need to be registerd to the procset
+// ProcsetIObj interface for all pdf objects that need to be registerd to the procset
 type ProcsetIObj interface {
 	IObj
 	procsetIdentifier() string

@@ -8,12 +8,10 @@ type EncodingObj struct {
 	font IFont
 }
 
-func (e *EncodingObj) init(funcGetRoot func() *Fpdf) {
+func (e *EncodingObj) init(funcGetRoot func() *Fpdf) {}
 
-}
-func (e *EncodingObj) getType() string {
-	return "Encoding"
-}
+func (e *EncodingObj) String() string { return "Encoding" }
+
 func (e *EncodingObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, "<</Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [")
 	io.WriteString(w, e.font.GetDiff())

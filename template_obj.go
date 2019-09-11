@@ -7,10 +7,9 @@ import (
 
 const templateType = "Template"
 
-//TemplateObj Template object
+// TemplateObj Template object
 type TemplateObj struct {
 	//imagepath string
-
 	pdfProtection *PDFProtection
 	getRoot       func() *Fpdf
 	images        []*ImageObj
@@ -21,6 +20,8 @@ type TemplateObj struct {
 	b             []byte
 	id            string
 }
+
+func (tpl *TemplateObj) String() string { return templateType }
 
 func newTemplateObj(template Template, p *PDFProtection, funcGetRoot func() *Fpdf) *TemplateObj {
 	tpl := new(TemplateObj)
@@ -96,10 +97,6 @@ func (tpl *TemplateObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, "\nendstream\n")
 
 	return nil
-}
-
-func (tpl *TemplateObj) getType() string {
-	return templateType
 }
 
 func (tpl *TemplateObj) ToTemplate() Template {

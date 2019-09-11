@@ -1,10 +1,10 @@
 package gofpdf
 
-//Current current state
+// Current state
 type Current struct {
-	setXCount int //many times we go func SetX()
-	X         float64
-	Y         float64
+	setXCount int     // Number of times SetX() has been called
+	X         float64 // Horizontal position in the document
+	Y         float64 // Vertical position in the document
 
 	//font
 	IndexOfFontObj int
@@ -19,20 +19,19 @@ type Current struct {
 	FontISubset *SubsetFontObj // FontType == CURRENT_FontType_SUBSET
 	TextOption
 
-	Font_ISubset *SubsetFontObj // Font_Type == CURRENT_FONT_TYPE_SUBSET
-	Text_Option  TextOption
-	//page
+	// page
 	IndexOfPageObj int
 
-	//img
+	// img
 	CountOfImg int
 
-	//text color
+	// text color
 	txtColor Rgb
 
-	//text grayscale
+	// text grayscale
 	grayFill float64
-	//draw grayscale
+
+	// draw grayscale
 	grayStroke float64
 
 	lineWidth float64

@@ -2,7 +2,7 @@ package gofpdf
 
 import "io"
 
-//WriteUInt32  writes a 32-bit unsigned integer value to w io.Writer
+// WriteUInt32 to an io.Writer.
 func WriteUInt32(w io.Writer, v uint) error {
 	a := byte(v >> 24)
 	b := byte(v >> 16)
@@ -15,9 +15,8 @@ func WriteUInt32(w io.Writer, v uint) error {
 	return nil
 }
 
-//WriteUInt16 writes a 16-bit unsigned integer value to w io.Writer
+// WriteUInt16 to an io.Writer.
 func WriteUInt16(w io.Writer, v uint) error {
-
 	a := byte(v >> 8)
 	b := byte(v)
 	_, err := w.Write([]byte{a, b})
@@ -27,7 +26,7 @@ func WriteUInt16(w io.Writer, v uint) error {
 	return nil
 }
 
-//WriteTag writes string value to w io.Writer
+// WriteTag writes a string value to an io.Writer.
 func WriteTag(w io.Writer, tag string) error {
 	b := []byte(tag)
 	_, err := w.Write(b)
@@ -37,9 +36,8 @@ func WriteTag(w io.Writer, tag string) error {
 	return nil
 }
 
-//WriteBytes writes []byte value to w io.Writer
+// WriteBytes to an io.Writer.
 func WriteBytes(w io.Writer, data []byte, offset int, count int) error {
-
 	_, err := w.Write(data[offset : offset+count])
 	if err != nil {
 		return err

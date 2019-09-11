@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-//DeviceRGBObj  DeviceRGB
+// DeviceRGBObj DeviceRGB
 type DeviceRGBObj struct {
 	data    []byte
 	getRoot func() *Fpdf
@@ -19,7 +19,7 @@ func (d *DeviceRGBObj) protection() *PDFProtection {
 	return d.getRoot().protection()
 }
 
-func (d *DeviceRGBObj) getType() string {
+func (d *DeviceRGBObj) String() string {
 	return "devicergb"
 }
 

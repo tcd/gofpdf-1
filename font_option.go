@@ -5,13 +5,13 @@ import (
 )
 
 const (
-	//Regular - font style regular
+	// Regular - font style regular
 	Regular = 0 //000000
-	//Italic - font style italic
+	// Italic - font style italic
 	Italic = 1 //000001
-	//Bold - font style bold
+	// Bold - font style bold
 	Bold = 2 //000010
-	//Underline - font style underline
+	// Underline - font style underline
 	Underline = 4 //000100
 )
 

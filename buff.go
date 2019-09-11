@@ -1,42 +1,42 @@
 package gofpdf
 
-//Buff for pdf content
+// Buff for pdf content.
 type Buff struct {
 	position int
-	datas    []byte
+	data     []byte
 }
 
-//Write : write []byte to buffer
+// Write bytes to buffer.
 func (b *Buff) Write(p []byte) (int, error) {
-	for len(b.datas) < b.position+len(p) {
-		b.datas = append(b.datas, 0)
+	for len(b.data) < b.position+len(p) {
+		b.data = append(b.data, 0)
 	}
 	i := 0
 	max := len(p)
 	for i < max {
-		b.datas[i+b.position] = p[i]
+		b.data[i+b.position] = p[i]
 		i++
 	}
 	b.position += i
 	return 0, nil
 }
 
-//Len : len of buffer
+// Len of buffer.
 func (b *Buff) Len() int {
-	return len(b.datas)
+	return len(b.data)
 }
 
-//Bytes : get bytes
+// Bytes in Buff.
 func (b *Buff) Bytes() []byte {
-	return b.datas
+	return b.data
 }
 
-//Position : get current postion
+// Position returns current postion.
 func (b *Buff) Position() int {
 	return b.position
 }
 
-//SetPosition : set current postion
+// SetPosition
 func (b *Buff) SetPosition(pos int) {
 	b.position = pos
 }

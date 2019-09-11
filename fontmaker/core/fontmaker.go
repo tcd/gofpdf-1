@@ -14,24 +14,25 @@ import (
 	"github.com/tcd/gofpdf-1/bp"
 )
 
-//ErrFontLicenseDoesNotAllowEmbedding Font license does not allow embedding
+// ErrFontLicenseDoesNotAllowEmbedding Font license does not allow embedding
 var ErrFontLicenseDoesNotAllowEmbedding = errors.New("Font license does not allow embedding")
 
-//FontMaker font maker
+// FontMaker results.
 type FontMaker struct {
 	results []string
 }
 
-//GetResults get result
+// GetResults getter method.
 func (f *FontMaker) GetResults() []string {
 	return f.results
 }
 
-//NewFontMaker new FontMaker
+// NewFontMaker constructor.
 func NewFontMaker() *FontMaker {
 	return new(FontMaker)
 }
 
+// MakeFont
 func (f *FontMaker) MakeFont(fontpath string, mappath string, encode string, outfolderpath string) error {
 
 	encodingpath := mappath + "/" + encode + ".map"
@@ -442,8 +443,14 @@ func (f *FontMaker) MultiplyAndRound(k float64, v int) int {
 	return f.Round(r)
 }
 
+// Round a float64 and cast the result to an int.
 func (f *FontMaker) Round(value float64) int {
-	return Round(value)
+	if value < 0.0 {
+		value -= 0.5
+	} else {
+		value += 0.5
+	}
+	return int(value)
 }
 
 func (f *FontMaker) LoadMap(encodingpath string) ([]FontMap, error) {

@@ -1,9 +1,11 @@
-package gofpdf
+package cache
 
 import (
 	"fmt"
 	"io"
 	"math"
+
+	. "github.com/tcd/gofpdf-1"
 )
 
 type cacheContentRotate struct {

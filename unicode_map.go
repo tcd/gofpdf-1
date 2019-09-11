@@ -14,6 +14,8 @@ type UnicodeMap struct {
 	pdfProtection *PDFProtection
 }
 
+func (u *UnicodeMap) String() string { return "Unicode" }
+
 func (u *UnicodeMap) init(funcGetRoot func() *Fpdf) {
 	//u.getRoot = funcGetRoot
 }
@@ -29,10 +31,6 @@ func (u *UnicodeMap) protection() *PDFProtection {
 //SetPtrToSubsetFontObj set pointer to SubsetFontObj
 func (u *UnicodeMap) SetPtrToSubsetFontObj(ptr *SubsetFontObj) {
 	u.PtrToSubsetFontObj = ptr
-}
-
-func (u *UnicodeMap) getType() string {
-	return "Unicode"
 }
 
 func (u *UnicodeMap) write(w io.Writer, objID int) error {

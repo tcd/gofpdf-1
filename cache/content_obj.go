@@ -1,21 +1,25 @@
-package gofpdf
+package cache
 
 import (
 	"compress/zlib"
 	"fmt"
 	"io"
 
+	. "github.com/tcd/gofpdf-1"
 	"github.com/tcd/gofpdf-1/bp"
 )
 
 const contentType = "Content"
 
-//ContentObj content object
-type ContentObj struct { //impl IObj
+// ContentObj content object
+// Implements IObj
+type ContentObj struct {
 	listCache listCacheContent
 	//text bytes.Buffer
 	getRoot func() *Fpdf
 }
+
+func (c *ContentObj) String() string { return contentType }
 
 func (c *ContentObj) protection() *PDFProtection {
 	return c.getRoot().protection()
@@ -79,14 +83,10 @@ func (c *ContentObj) write(w io.Writer, objID int) error {
 	return nil
 }
 
-func (c *ContentObj) getType() string {
-	return contentType
-}
-
 //AppendStreamText append text
 func (c *ContentObj) AppendStreamText(text string) error {
 
-	//support only CURRENT_FONT_TYPE_SUBSET
+	//support only CURRENT_FontType_SUBSET
 	textColor := c.getRoot().curr.textColor()
 	grayFill := c.getRoot().curr.grayFill
 	fontSize := c.getRoot().curr.FontSize

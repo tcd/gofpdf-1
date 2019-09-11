@@ -1,10 +1,12 @@
-package gofpdf
+package cache
 
 import (
 	"fmt"
 	"io"
 	"math"
 	"strings"
+
+	. "github.com/tcd/gofpdf-1"
 )
 
 type cacheContentClipBegin struct{}

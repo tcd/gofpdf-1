@@ -3,6 +3,8 @@ package gofpdf
 import (
 	"fmt"
 	"io"
+
+	"github.com/tcd/gofpdf-1/cache"
 )
 
 type pdfObjs struct {
@@ -43,7 +45,7 @@ func newPdfObjs(funcGetRoot func() *Fpdf) *pdfObjs {
 func (p *pdfObjs) addObj(iobj IObj) int {
 	index := len(p.objs)
 	p.objs = append(p.objs, iobj)
-	p.typeMap[iobj.getType()] = append(p.typeMap[iobj.getType()], index)
+	p.typeMap[iobj.String()] = append(p.typeMap[iobj.String()], index)
 	return index
 }
 
@@ -217,19 +219,19 @@ func (p *pdfObjs) getPage(index int) *PageObj {
 	return nil
 }
 
-func (p *pdfObjs) currentContent() *ContentObj {
+func (p *pdfObjs) currentContent() *cache.ContentObj {
 	page := p.currentPage()
 	return p.getPageContent(page)
 }
 
-func (p *pdfObjs) getPageContent(page *PageObj) *ContentObj {
-	var content *ContentObj
+func (p *pdfObjs) getPageContent(page *PageObj) *cache.ContentObj {
+	var content *cache.ContentObj
 	if page == nil {
 		return content
 	}
 
 	if page.indexOfContentObj < 0 {
-		content = new(ContentObj)
+		content = new(cache.ContentObj)
 		content.init(p.getRoot)
 		page.setIndexOfContentObj(p.addObj(content))
 	} else {
@@ -240,12 +242,12 @@ func (p *pdfObjs) getPageContent(page *PageObj) *ContentObj {
 
 }
 
-func (p *pdfObjs) getContent(index int) *ContentObj {
+func (p *pdfObjs) getContent(index int) *cache.ContentObj {
 	if len(p.objs) <= index || index < 0 {
 		return nil
 	}
 
-	if content, ok := p.objs[index].(*ContentObj); ok {
+	if content, ok := p.objs[index].(*cache.ContentObj); ok {
 		return content
 	}
 

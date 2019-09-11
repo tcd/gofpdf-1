@@ -5,13 +5,15 @@ import (
 	"io"
 )
 
-//SMask smask
+//SMask
 type SMask struct {
 	imgInfo
 	data []byte
 	//getRoot func() *Fpdf
 	pdfProtection *PDFProtection
 }
+
+func (s *SMask) String() string { return "smask" }
 
 func (s *SMask) init(funcGetRoot func() *Fpdf) {
 	//s.getRoot = funcGetRoot
@@ -23,10 +25,6 @@ func (s *SMask) setProtection(p *PDFProtection) {
 
 func (s *SMask) protection() *PDFProtection {
 	return s.pdfProtection
-}
-
-func (s *SMask) getType() string {
-	return "smask"
 }
 
 func (s *SMask) write(w io.Writer, objID int) error {

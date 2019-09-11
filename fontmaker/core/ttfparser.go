@@ -83,8 +83,8 @@ type TTFParser struct {
 	cacheFontData []byte
 
 	//kerning
-	useKerning bool //user config for use or not use kerning
-	kern       *KernTable
+	useKerning bool       // user config for use or not use kerning
+	kern       *KernTable // Kern Table
 }
 
 func (t TTFParser) GobEncode() ([]byte, error) {
@@ -104,22 +104,22 @@ func (t *TTFParser) GobDecode(buf []byte) error {
 var Symbolic = 1 << 2
 var Nonsymbolic = (1 << 5)
 
-//Kern get KernTable
+// Kern returns KernTable
 func (t *TTFParser) Kern() *KernTable {
 	return t.kern
 }
 
-//UnderlinePosition postion of underline
+// UnderlinePosition getter method.
 func (t *TTFParser) UnderlinePosition() int {
 	return t.underlinePosition
 }
 
-//GroupingTables get cmap format12 grouping table
+// GroupingTables get cmap format12 grouping table
 func (t *TTFParser) GroupingTables() []CmapFormat12GroupingTable {
 	return t.groupingTables
 }
 
-//UnderlineThickness thickness of underline
+// UnderlineThickness getter method.
 func (t *TTFParser) UnderlineThickness() int {
 	return t.underlineThickness
 }
@@ -132,22 +132,27 @@ func (t *TTFParser) XHeight() int {
 	}
 }
 
+// XMin getter method.
 func (t *TTFParser) XMin() int {
 	return t.xMin
 }
 
+// YMin getter method.
 func (t *TTFParser) YMin() int {
 	return t.yMin
 }
 
+// XMax getter method.
 func (t *TTFParser) XMax() int {
 	return t.xMax
 }
 
+// YMax getter method.
 func (t *TTFParser) YMax() int {
 	return t.yMax
 }
 
+// ItalicAngle getter method.
 func (t *TTFParser) ItalicAngle() int {
 	return t.italicAngle
 }
@@ -180,36 +185,42 @@ func (t *TTFParser) Descender() int {
 	return descender
 }
 
+// TypoAscender getter method.
 func (t *TTFParser) TypoAscender() int {
 	return t.typoAscender
 }
 
+// TypoDescender getter method.
 func (t *TTFParser) TypoDescender() int {
 	return t.typoDescender
 }
 
-//CapHeight https://en.wikipedia.org/wiki/Cap_height
+// CapHeight https://en.wikipedia.org/wiki/Cap_height
 func (t *TTFParser) CapHeight() int {
 	return t.capHeight
 }
 
-//NumGlyphs number of glyph
+// NumGlyphs getter method.
 func (t *TTFParser) NumGlyphs() uint {
 	return t.numGlyphs
 }
 
+// UnitsPerEm getter method.
 func (t *TTFParser) UnitsPerEm() uint {
 	return t.unitsPerEm
 }
 
+// NumberOfHMetrics getter method.
 func (t *TTFParser) NumberOfHMetrics() uint {
 	return t.numberOfHMetrics
 }
 
+// Widths getter method.
 func (t *TTFParser) Widths() []uint {
 	return t.widths
 }
 
+// Chars getter method.
 func (t *TTFParser) Chars() map[int]uint {
 	return t.chars
 }
@@ -218,12 +229,12 @@ func (t *TTFParser) GetTables() map[string]TableDirectoryEntry {
 	return t.tables
 }
 
-//SetUseKerning set useKerning must set before Parse
+// SetUseKerning must be called before Parse.
 func (t *TTFParser) SetUseKerning(use bool) {
 	t.useKerning = use
 }
 
-//Parse parse
+// Parse
 func (t *TTFParser) Parse(filepath string) error {
 	data, err := ioutil.ReadFile(filepath)
 	if err != nil {
@@ -233,7 +244,7 @@ func (t *TTFParser) Parse(filepath string) error {
 	return t.parse(buff)
 }
 
-//ParseByReader parse by io.reader
+// ParseByReader parse by io.reader
 func (t *TTFParser) ParseByReader(rd io.Reader) error {
 	return t.parse(rd)
 }
@@ -352,7 +363,7 @@ func (t *TTFParser) FontData() []byte {
 	return t.cacheFontData
 }
 
-//ParseLoca parse loca table https://www.microsoft.com/typography/otspec/loca.htm
+// ParseLoca parse loca table https://www.microsoft.com/typography/otspec/loca.htm
 func (t *TTFParser) ParseLoca(fd *bytes.Reader) error {
 
 	t.IsShortIndex = false
@@ -395,7 +406,7 @@ func (t *TTFParser) ParseLoca(fd *bytes.Reader) error {
 	return nil
 }
 
-//ParsePost parse post table https://www.microsoft.com/typography/otspec/post.htm
+// ParsePost parse post table https://www.microsoft.com/typography/otspec/post.htm
 func (t *TTFParser) ParsePost(fd *bytes.Reader) error {
 
 	err := t.Seek(fd, "post")
@@ -440,7 +451,7 @@ func (t *TTFParser) ParsePost(fd *bytes.Reader) error {
 	return nil
 }
 
-//ParseOS2 parse OS2 table https://www.microsoft.com/typography/otspec/OS2.htm
+// ParseOS2 parse OS2 table https://www.microsoft.com/typography/otspec/OS2.htm
 func (t *TTFParser) ParseOS2(fd *bytes.Reader) error {
 	err := t.Seek(fd, "OS/2")
 	if err != nil {
@@ -524,7 +535,7 @@ func (t *TTFParser) ParseOS2(fd *bytes.Reader) error {
 	return nil
 }
 
-//ParseName parse name table https://www.microsoft.com/typography/otspec/name.htm
+// ParseName parse name table https://www.microsoft.com/typography/otspec/name.htm
 func (t *TTFParser) ParseName(fd *bytes.Reader) error {
 
 	//$this->Seek('name');
@@ -608,8 +619,8 @@ func (t *TTFParser) ParseName(fd *bytes.Reader) error {
 	return nil
 }
 
+// PregReplace wrapps a call to pattern.ReplaceAllString(subject, replacement)
 func (t *TTFParser) PregReplace(pattern string, replacement string, subject string) (string, error) {
-
 	reg, err := regexp.Compile(pattern)
 	if err != nil {
 		return "", err
@@ -618,7 +629,7 @@ func (t *TTFParser) PregReplace(pattern string, replacement string, subject stri
 	return str, nil
 }
 
-//ParseCmap parse cmap table format 4 https://www.microsoft.com/typography/otspec/cmap.htm
+// ParseCmap parse cmap table format 4 https://www.microsoft.com/typography/otspec/cmap.htm
 func (t *TTFParser) ParseCmap(fd *bytes.Reader) error {
 	t.Seek(fd, "cmap")
 	t.Skip(fd, 2) // version
@@ -790,7 +801,6 @@ func (t *TTFParser) ParseCmap(fd *bytes.Reader) error {
 				t.chars[int(c)] = gid
 			}
 		}
-
 	}
 
 	_, err = t.ParseCmapFormat12(fd)
@@ -806,9 +816,8 @@ func (t *TTFParser) FTell(fd *bytes.Reader) (uint, error) {
 	return uint(offset), err
 }
 
-//ParseHmtx parse hmtx table  https://www.microsoft.com/typography/otspec/hmtx.htm
+// ParseHmtx parse hmtx table  https://www.microsoft.com/typography/otspec/hmtx.htm
 func (t *TTFParser) ParseHmtx(fd *bytes.Reader) error {
-
 	t.Seek(fd, "hmtx")
 	i := uint(0)
 	for i < t.numberOfHMetrics {
@@ -831,7 +840,6 @@ func (t *TTFParser) ParseHmtx(fd *bytes.Reader) error {
 			return err
 		}
 	}
-
 	return nil
 }
 
@@ -846,11 +854,10 @@ func (t *TTFParser) ArrayPadUint(arr []uint, size uint, val uint) ([]uint, error
 		}
 		i++
 	}
-
 	return result, nil
 }
 
-//ParseHead parse head table  https://www.microsoft.com/typography/otspec/Head.htm
+// ParseHead parse head table  https://www.microsoft.com/typography/otspec/Head.htm
 func (t *TTFParser) ParseHead(fd *bytes.Reader) error {
 
 	//fmt.Printf("\nParseHead\n")
@@ -921,7 +928,7 @@ func (t *TTFParser) ParseHead(fd *bytes.Reader) error {
 	return nil
 }
 
-//ParseHhea parse hhea table  https://www.microsoft.com/typography/otspec/hhea.htm
+// ParseHhea parse hhea table  https://www.microsoft.com/typography/otspec/hhea.htm
 func (t *TTFParser) ParseHhea(fd *bytes.Reader) error {
 
 	err := t.Seek(fd, "hhea")
@@ -957,7 +964,7 @@ func (t *TTFParser) ParseHhea(fd *bytes.Reader) error {
 	return nil
 }
 
-//ParseMaxp parse maxp table  https://www.microsoft.com/typography/otspec/Maxp.htm
+// ParseMaxp parse maxp table  https://www.microsoft.com/typography/otspec/Maxp.htm
 func (t *TTFParser) ParseMaxp(fd *bytes.Reader) error {
 	err := t.Seek(fd, "maxp")
 	if err != nil {
@@ -974,10 +981,7 @@ func (t *TTFParser) ParseMaxp(fd *bytes.Reader) error {
 	return nil
 }
 
-//ErrTableNotFound error table not found
-var ErrTableNotFound = errors.New("table not found")
-
-//Seek seek by tag
+// Seek by tag
 func (t *TTFParser) Seek(fd *bytes.Reader, tag string) error {
 	table, ok := t.tables[tag]
 	if !ok {
@@ -991,7 +995,7 @@ func (t *TTFParser) Seek(fd *bytes.Reader, tag string) error {
 	return nil
 }
 
-//BytesToString convert bytes to string
+// BytesToString convert bytes to string
 func (t *TTFParser) BytesToString(b []byte) string {
 	return string(b) //strings.TrimSpace(string(b))
 }
@@ -1006,14 +1010,14 @@ func (t *TTFParser) ReadUShort(fd *bytes.Reader) (uint, error) {
 	return uint(n), nil
 }
 
-//ReadShort read short
+// ReadShort read short
 func (t *TTFParser) ReadShort(fd *bytes.Reader) (int, error) {
 	u, err := t.ReadUShort(fd)
 	if err != nil {
 		return 0, err
 	}
 
-	//fmt.Printf("%#v\n", buff)
+	// fmt.Printf("%#v\n", buff)
 	var v int
 	if u >= 0x8000 {
 		v = int(u) - 65536
@@ -1023,7 +1027,7 @@ func (t *TTFParser) ReadShort(fd *bytes.Reader) (int, error) {
 	return v, nil
 }
 
-//ReadShortInt16 read short return int16
+// ReadShortInt16 read short return int16
 func (t *TTFParser) ReadShortInt16(fd *bytes.Reader) (int16, error) {
 	n, err := t.ReadShort(fd)
 	if err != nil {
@@ -1032,7 +1036,7 @@ func (t *TTFParser) ReadShortInt16(fd *bytes.Reader) (int16, error) {
 	return int16(n), nil
 }
 
-//ReadULong read ulong
+// ReadULong read ulong
 func (t *TTFParser) ReadULong(fd *bytes.Reader) (uint, error) {
 	buff, err := t.Read(fd, 4)
 	//fmt.Printf("%#v\n", buff)
@@ -1043,7 +1047,7 @@ func (t *TTFParser) ReadULong(fd *bytes.Reader) (uint, error) {
 	return uint(n), nil
 }
 
-//Skip skip
+// Skip
 func (t *TTFParser) Skip(fd *bytes.Reader, length int) error {
 	_, err := fd.Seek(int64(length), 1)
 	if err != nil {
@@ -1052,7 +1056,7 @@ func (t *TTFParser) Skip(fd *bytes.Reader, length int) error {
 	return nil
 }
 
-//Read read
+// Read
 func (t *TTFParser) Read(fd *bytes.Reader, length int) ([]byte, error) {
 	buff := make([]byte, length)
 	readlength, err := fd.Read(buff)
@@ -1066,7 +1070,7 @@ func (t *TTFParser) Read(fd *bytes.Reader, length int) ([]byte, error) {
 	return buff, nil
 }
 
-// Hash gets a hash representation of the font
+// Hash gets a hash representation of the font.
 func (t *TTFParser) Hash() string {
 	return fmt.Sprintf("%x", sha1.Sum(t.cacheFontData))
 }

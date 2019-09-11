@@ -10,9 +10,9 @@ type FontDescriptorObj struct {
 	fontFileObjRelate string
 }
 
-func (f *FontDescriptorObj) init(funcGetRoot func() *Fpdf) {
+func (f *FontDescriptorObj) String() string { return "FontDescriptor" }
 
-}
+func (f *FontDescriptorObj) init(funcGetRoot func() *Fpdf) {}
 
 func (f *FontDescriptorObj) write(w io.Writer, objID int) error {
 
@@ -25,7 +25,7 @@ func (f *FontDescriptorObj) write(w io.Writer, objID int) error {
 		i++
 	}
 
-	if f.getType() == "Type1" {
+	if f.String() == "Type1" {
 		io.WriteString(w, "/FontFile ")
 	} else {
 		io.WriteString(w, "/FontFile2 ")
@@ -35,10 +35,6 @@ func (f *FontDescriptorObj) write(w io.Writer, objID int) error {
 	io.WriteString(w, ">>\n")
 
 	return nil
-}
-
-func (f *FontDescriptorObj) getType() string {
-	return "FontDescriptor"
 }
 
 func (f *FontDescriptorObj) SetFont(font IFont) {

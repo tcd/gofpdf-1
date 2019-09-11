@@ -20,7 +20,7 @@ const subsetFont = "SubsetFont"
 // the default margin if no margins are set
 const defaultMargin = 1 * conversionCM
 
-//Fpdf : A simple library for generating PDF written in Go lang
+// Fpdf is a simple library for generating PDF written in Go lang
 type Fpdf struct {
 
 	//page Margin
@@ -39,7 +39,6 @@ type Fpdf struct {
 	// Buffer for io.Reader compliance
 	buf bytes.Buffer
 
-	//pdf PProtection
 	pdfProtection *PDFProtection
 
 	// content streams only
@@ -256,7 +255,7 @@ func (gp *Fpdf) Beziertext(pts Points, startBracket, endBracket float64, text st
 	bs := NewBezierSpline(points)
 
 	numrunes := len([]rune(text))
-	err := gp.curr.Font_ISubset.AddChars(text)
+	err := gp.curr.FontISubset.AddChars(text)
 	if err != nil {
 		return err
 	}
@@ -286,7 +285,7 @@ func (gp *Fpdf) Beziertext(pts Points, startBracket, endBracket float64, text st
 		if r < 0.0 {
 			r = 0.0
 		}
-		gp.curr.Font_Size = gp.curr.Font_Size * r
+		gp.curr.FontSize = gp.curr.FontSize * r
 	}
 
 	endpts := make([]float64, numrunes+1)
@@ -333,9 +332,9 @@ func (gp *Fpdf) Beziertext(pts Points, startBracket, endBracket float64, text st
 		selected[i] = BezierPoint{bs[curveIndex].At(paramValue), bs[curveIndex].NormalDegrees(paramValue)}
 	}
 
-	height := gp.curr.Font_Size
-	descent := gp.curr.Font_ISubset.ttfp.TypoDescender()
-	upm := gp.curr.Font_ISubset.ttfp.UnitsPerEm()
+	height := gp.curr.FontSize
+	descent := gp.curr.FontISubset.ttfp.TypoDescender()
+	upm := gp.curr.FontISubset.ttfp.UnitsPerEm()
 	cellopt := CellOption{
 		Align:  Center,
 		Border: opt.Border,
@@ -348,7 +347,7 @@ func (gp *Fpdf) Beziertext(pts Points, startBracket, endBracket float64, text st
 		gp.curr.X, gp.curr.Y = v.pt.X-(width/2.0), v.pt.Y-height- // Offset cell origin
 			float64(descent)/float64(upm)*height // Move down to baseline
 		t := srunes[i]
-		if err := gp.curr.Font_ISubset.AddChars(t); err != nil {
+		if err := gp.curr.FontISubset.AddChars(t); err != nil {
 			return err
 		}
 		if err = gp.currentContent().AppendStreamSubsetFont(rect, t, cellopt, textOpt); err != nil {
@@ -917,10 +916,10 @@ func New(opts ...PdfOption) (*Fpdf, error) {
 // for Bold|Italic should be loaded apropriate fonts with same styles defined
 func (gp *Fpdf) SetFontWithStyle(family string, style int, size float64) error {
 	if sub := gp.pdfObjs.getSubsetFontObjByFamilyAndStyle(family, style&^Underline); sub != nil {
-		gp.curr.Font_Size = size
-		gp.curr.Font_Style = style
-		gp.curr.Font_FontCount = sub.CountOfFont
-		gp.curr.Font_ISubset = sub
+		gp.curr.FontSize = size
+		gp.curr.FontStyle = style
+		gp.curr.FontCount = sub.CountOfFont
+		gp.curr.FontISubset = sub
 	} else {
 		return fmt.Errorf("Could not find font with family: \"%s\" and style \"%d\"", family, style)
 	}
@@ -1017,7 +1016,7 @@ func (gp *Fpdf) GetBytesPdf() []byte {
 func (gp *Fpdf) Text(x, y float64, text string) error {
 	gp.SetXY(x, y)
 
-	err := gp.curr.Font_ISubset.AddChars(text)
+	err := gp.curr.FontISubset.AddChars(text)
 	if err != nil {
 		return err
 	}
@@ -1157,7 +1156,7 @@ func (gp *Fpdf) cutStringBefore(txtStr string, w float64, textOpt TextOption) (l
 
 	for y := 0; y < len(words); y++ {
 		var tw float64
-		tw, err = gp.measureTextWidth(fmt.Sprintf("%s%s", line, words[y]), Unit_PT, textOpt)
+		tw, err = gp.measureTextWidth(fmt.Sprintf("%s%s", line, words[y]), UnitPT, textOpt)
 
 		if err != nil {
 			return
@@ -1188,7 +1187,7 @@ func (gp *Fpdf) CellWithOption(w, h float64, text string, opt CellOption, textOp
 }
 
 func (gp *Fpdf) cellWithOption(rect Rect, text string, opt CellOption, textOpts TextOption) error {
-	err := gp.curr.Font_ISubset.AddChars(text)
+	err := gp.curr.FontISubset.AddChars(text)
 	if err != nil {
 		return err
 	}
@@ -1351,7 +1350,7 @@ func (gp *Fpdf) KernOverride(family string, fn FuncKernOverride) error {
 	return errors.New("font family not found")
 }
 
-// SetTextColor :  function sets the text color
+// SetTextColor sets the text color
 func (gp *Fpdf) SetTextColor(r uint8, g uint8, b uint8) {
 	rgb := Rgb{
 		r: r,
@@ -1392,7 +1391,7 @@ func (gp *Fpdf) measureTextWidth(text string, units Unit, textOpt TextOption) (f
 		return 0, err
 	}
 
-	_, _, textWidthPdfUnit, err := createContent(gp.curr.Font_ISubset, text, gp.curr.Font_Size, nil, textOpt)
+	_, _, textWidthPdfUnit, err := createContent(gp.curr.FontISubset, text, gp.curr.FontSize, nil, textOpt)
 	if err != nil {
 		return 0, err
 	}

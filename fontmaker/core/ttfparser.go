@@ -974,9 +974,6 @@ func (t *TTFParser) ParseMaxp(fd *bytes.Reader) error {
 	return nil
 }
 
-//ErrTableNotFound error table not found
-var ErrTableNotFound = errors.New("table not found")
-
 //Seek seek by tag
 func (t *TTFParser) Seek(fd *bytes.Reader, tag string) error {
 	table, ok := t.tables[tag]
